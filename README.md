@@ -6,6 +6,9 @@ English | [简体中文](./README.zh-CN.md)
 
 dpt-shell is an Android Dex protection shell that hollows out Dex method implementations and reconstructs them at runtime.
 
+## dpt-shell-v2.19.1 
+## ← 新增：去掉 .so 写权限，规避 Android 14+ 可写文件加载警告
+
 ## Usage
 
 ### Quick uses
