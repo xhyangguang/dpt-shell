@@ -1,0 +1,36 @@
+name: Build fixed dpt-shell
+
+on:
+  workflow_dispatch:        # ★ 手动触发：Actions 页面点 Run workflow
+  push:
+    tags:
+      - '*'                # 任意 tag 也能触发，不再限制 v 开头
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+      - name: Install ninja
+        run: sudo apt-get update && sudo apt-get install ninja-build
+      - name: Setup CMake
+        uses: jwlawson/actions-setup-cmake@v1
+        with:
+          cmake-version: '3.31.1'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Building project
+        run: ./gradlew build
+      - name: Compress executable
+        run: zip -r -q dpt-shell-fixed.zip executable/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dpt-shell-fixed
+          path: dpt-shell-fixed.zip
