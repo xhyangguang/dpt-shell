@@ -74,6 +74,7 @@ import java.util.zip.ZipFile;
                              bufferedOutputStream.write(buf, 0, len);
                          }
                      }
+                     entryFile.setReadOnly();   // ← 新增：去掉 .so 写权限，规避 Android 14+ 可写文件加载警告
                      Log.d(TAG, "unzip '" + entry.getName() + "' success. local = " + localFileCrc + ", zip = " + entry.getCrc());
                      break;
                  }
